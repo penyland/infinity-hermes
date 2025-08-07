@@ -1,0 +1,5 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Infinity.HelloWorld/Infinity.HelloWorld.csproj" />
+  </Folder>
+</Solution>
