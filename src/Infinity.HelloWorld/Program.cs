@@ -7,6 +7,29 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
     options.ForwardedHeaders = ForwardedHeaders.XForwardedPrefix;
 });
 
+// Add CORS services
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("DefaultCorsPolicy", policy =>
+    {
+        //if (builder.Environment.IsDevelopment())
+        //{
+        //    // More permissive policy for development
+        //    policy.AllowAnyOrigin()
+        //          .AllowAnyMethod()
+        //          .AllowAnyHeader();
+        //}
+        //else
+        //{
+            // More restrictive policy for production using configuration
+            var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? ["https://localhost:5001"];
+            
+            policy.WithOrigins(allowedOrigins)
+                  .WithMethods(["GET"]);
+        //}
+    });
+});
+
 builder.AddFeatureModules();
 builder.Services.AddHealthChecks();
 builder.Services.AddAuthentication().AddJwtBearer();
@@ -30,6 +53,9 @@ app.Use(async (context, next) =>
 
     await next(context);
 });
+
+// Enable CORS
+app.UseCors("DefaultCorsPolicy");
 
 app.UseDefaultFiles();
 app.UseStaticFiles();

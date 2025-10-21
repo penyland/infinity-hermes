@@ -8,7 +8,7 @@
   
   <PropertyGroup>
     <ContainerRepository>infinity/helloworld</ContainerRepository>
-    <ContainerFamily>noble-chiseled</ContainerFamily>
+    <ContainerFamily>alpine</ContainerFamily>
     <EnableSdkContainerSupport>true</EnableSdkContainerSupport>
   </PropertyGroup>
 
