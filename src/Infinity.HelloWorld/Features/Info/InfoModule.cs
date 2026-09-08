@@ -5,13 +5,10 @@ using System.Runtime.InteropServices;
 
 namespace Infinity.HelloWorld.Features.Info;
 
+[WebFeatureModule("Info Module", "1.0.0")]
 public class InfoModule : WebFeatureModule
 {
-    public override IModuleInfo? ModuleInfo { get; }
-
     public override void MapEndpoints(WebApplication builder) => builder.MapInfoEndpoints();
-
-    public override ModuleContext RegisterModule(ModuleContext featureModuleContext) => featureModuleContext;
 }
 
 public static class InfoEndpoints
@@ -26,8 +23,7 @@ public static class InfoEndpoints
         group.MapGet("/version", GetVersion)
             .WithName("GetVersion")
             .WithDisplayName("Get service version")
-            .Produces<VersionResponse>()
-            .WithOpenApi();
+            .Produces<VersionResponse>();
 
         group.MapGet("/title", (IConfiguration configuration) => configuration.GetValue<string>("OpenApi:Info:Title") ?? Assembly.GetEntryAssembly()?.GetName().Name ?? "Title");
         group.MapGet("/config", GetConfig)
